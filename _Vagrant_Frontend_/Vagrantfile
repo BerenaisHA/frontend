@@ -1,0 +1,39 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+## Vagrant para el Frontend
+## sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade
+## sudo apt-get -f install && sudo dpkg --configure -a && sudo apt-get update && sudo apt-get upgrade && sudo apt-get dist-upgrade && sudo apt-get clean && sudo apt-get autoremove
+## sudo apt-get install build-essential
+
+## Install NodeJS
+## sudo npm install -g @vue/cli
+## vue --version
+
+## sudo npm install
+
+## http://192.168.0.192:8080/login
+
+Vagrant.configure("2") do |config|
+  config.vm.define "Frontend" do |vm1|
+    vm1.vm.hostname = "Frontend"
+    vm1.vm.box = "ubuntu/xenial64"
+    ## Va a preguntar con qué interfaz hacer el "bridge"
+    ## 1) en0: Wi-Fi (AirPort) <--- Seleccionar esta
+    vm1.vm.network "public_network", ip: "192.168.0.192"
+
+    # Red del TEC
+    #vm1.vm.network "public_network", ip: "192.168.1.192"
+
+    vm1.vm.provider "virtualbox" do |vb|
+      vb.name = "Frontend"
+      vb.gui = false
+      vb.memory = "1024"
+    end
+
+    vm1.vm.provision "shell", run: "always", inline: <<-SHELL
+      echo "Hello from Frontend"
+    SHELL
+  end
+end
+
